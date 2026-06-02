@@ -30,7 +30,16 @@ const registerUser = async (payload: any) => {
     auths: [authProvider]
   })
 
-  return user
+  const createdUser = user.toObject()
+
+  const {
+    password: userPassword,
+    isActive,
+    isDeleted,
+    ...userData
+  } = createdUser
+
+  return userData
 }
 
 const loginUser = async (payload: { email: string; password: string }) => {
@@ -48,7 +57,11 @@ const loginUser = async (payload: { email: string; password: string }) => {
     throw new AppError(httpStatusCode.UNAUTHORIZED, 'Invalid credentials')
   }
 
-  return isUserExist
+  const user = isUserExist.toObject()
+
+  const { password: userPassword, isActive, isDeleted, ...userData } = user
+
+  return userData
 }
 
 export const AuthService = {
