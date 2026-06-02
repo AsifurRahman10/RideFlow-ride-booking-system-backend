@@ -33,6 +33,25 @@ const registerUser = async (payload: any) => {
   return user
 }
 
+const loginUser = async (payload: { email: string; password: string }) => {
+  const { email, password } = payload
+
+  const isUserExist = await User.findOne({ email: email })
+
+  if (!isUserExist) {
+    throw new AppError(httpStatusCode.NOT_FOUND, 'User not found')
+  }
+
+  const isPasswordMatch = await bcrypt.compare(password, isUserExist.password)
+
+  if (!isPasswordMatch) {
+    throw new AppError(httpStatusCode.UNAUTHORIZED, 'Invalid credentials')
+  }
+
+  return isUserExist
+}
+
 export const AuthService = {
-  registerUser
+  registerUser,
+  loginUser
 }
