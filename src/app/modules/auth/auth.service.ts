@@ -4,6 +4,7 @@ import { User } from '../user/user.modal'
 import httpStatusCode from 'http-status-codes'
 import { envVars } from '../../config/config'
 import { IAuthProvider } from '../user/user.interface'
+import { createUserTokens } from '../../utils/userToken'
 
 const registerUser = async (payload: any) => {
   const { email, password, ...rest } = payload
@@ -57,14 +58,33 @@ const loginUser = async (payload: { email: string; password: string }) => {
     throw new AppError(httpStatusCode.UNAUTHORIZED, 'Invalid credentials')
   }
 
+  const { accessToken, refreshToken } = createUserTokens(isUserExist)
+
   const user = isUserExist.toObject()
 
   const { password: userPassword, isActive, isDeleted, ...userData } = user
+
+  return { user: userData, accessToken, refreshToken }
+}
+const getLoggedInUser = async (user: any) => {
+  const loggedInUser = await User.findById(user.userId)
+
+  if (!loggedInUser) {
+    throw new AppError(httpStatusCode.NOT_FOUND, 'User not found')
+  }
+
+  const {
+    password: userPassword,
+    isActive,
+    isDeleted,
+    ...userData
+  } = loggedInUser.toObject()
 
   return userData
 }
 
 export const AuthService = {
   registerUser,
-  loginUser
+  loginUser,
+  getLoggedInUser
 }
