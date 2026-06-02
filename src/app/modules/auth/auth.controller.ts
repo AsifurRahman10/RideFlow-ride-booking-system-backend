@@ -35,7 +35,6 @@ const loginUser = catchAsync(
 
 const getLoggedInUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.user)
     const user = await AuthService.getLoggedInUser(req.user)
 
     sendResponse(res, {
