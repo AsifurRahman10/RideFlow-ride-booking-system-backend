@@ -11,6 +11,8 @@ interface EnvProps {
   JWT_EXPIRE: string
   JWT_REFRESH_SECRET: string
   JWT_REFRESH_EXPIRE: string
+  SUPER_ADMIN_EMAIL: string
+  SUPER_ADMIN_PASSWORD: string
 }
 
 const loadEnv = (): EnvProps => {
@@ -23,7 +25,9 @@ const loadEnv = (): EnvProps => {
     'JWT_SECRET',
     'JWT_EXPIRE',
     'JWT_REFRESH_SECRET',
-    'JWT_REFRESH_EXPIRE'
+    'JWT_REFRESH_EXPIRE',
+    'SUPER_ADMIN_EMAIL',
+    'SUPER_ADMIN_PASSWORD'
   ]
 
   envArray.forEach((key) => {
@@ -40,7 +44,9 @@ const loadEnv = (): EnvProps => {
     JWT_SECRET: process.env.JWT_SECRET!,
     JWT_EXPIRE: process.env.JWT_EXPIRE!,
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET!,
-    JWT_REFRESH_EXPIRE: process.env.JWT_REFRESH_EXPIRE!
+    JWT_REFRESH_EXPIRE: process.env.JWT_REFRESH_EXPIRE!,
+    SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL!,
+    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD!
   }
 }
 
