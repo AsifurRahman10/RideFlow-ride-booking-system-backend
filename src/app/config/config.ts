@@ -2,6 +2,7 @@ interface EnvProps {
   PORT: string
   MONGODB_URL: string
   FRONTEND_URL: string
+  NODE_ENV: string
 }
 
 const loadEnv = (): EnvProps => {
@@ -15,7 +16,8 @@ const loadEnv = (): EnvProps => {
   return {
     PORT: process.env.PORT!,
     MONGODB_URL: process.env.MONGODB_URL!,
-    FRONTEND_URL: process.env.FRONTEND_URL!
+    FRONTEND_URL: process.env.FRONTEND_URL!,
+    NODE_ENV: process.env.NODE_ENV || 'development'
   }
 }
 

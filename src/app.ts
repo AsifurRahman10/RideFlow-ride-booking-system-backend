@@ -1,11 +1,11 @@
 import cors from 'cors'
 import express from 'express'
-import { router } from './app/routers'
-import globalErrorHandler from './app/middlewares/globalErrorHandler'
-import notFound from './app/middlewares/notFound'
 import cookieParser from 'cookie-parser'
 import expressSession from 'express-session'
 import { envVars } from './app/config/config'
+import { router } from './app/routers'
+import notFound from './app/middleware/notFound'
+import globalErrorHandler from './app/middleware/globalErrorHandler'
 
 const app = express()
 app.use(
