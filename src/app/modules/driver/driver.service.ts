@@ -90,7 +90,6 @@ const approveOrRejectDriver = async (
   driverId: string,
   approvalStatus: IDriverApprovalStatus
 ) => {
-  console.log(approvalStatus)
   const driver = await Driver.findById(driverId)
   if (!driver) {
     throw new Error('Driver not found')
