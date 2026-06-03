@@ -81,10 +81,16 @@ const getDriverEarnings = async (
   }
 }
 
+const getAllDrivers = async (): Promise<IDriver[]> => {
+  const drivers = await Driver.find().populate('user', 'name email')
+  return drivers
+}
+
 export const DriverService = {
   createDriverProfile,
   getDriverProfile,
   updateDriverAvailability,
   updateDriverLocation,
-  getDriverEarnings
+  getDriverEarnings,
+  getAllDrivers
 }

@@ -32,4 +32,11 @@ router.patch(
   DriverController.updateDriverLocation
 )
 
+// admin route
+router.get(
+  '/',
+  checkAuth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DriverController.getAllDrivers
+)
+
 export const DriverRoute = router

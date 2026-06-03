@@ -72,11 +72,23 @@ const getDriverEarnings = catchAsync(
     })
   }
 )
+const getAllDrivers = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await DriverService.getAllDrivers()
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'All drivers retrieved successfully',
+      data: users
+    })
+  }
+)
 
 export const DriverController = {
   createDriverProfile,
   getDriverProfile,
   updateDriverAvailability,
   updateDriverLocation,
-  getDriverEarnings
+  getDriverEarnings,
+  getAllDrivers
 }
