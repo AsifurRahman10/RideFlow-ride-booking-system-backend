@@ -22,8 +22,7 @@ const driverSchema = new Schema<IDriver>(
       default: false
     },
     location: {
-      type: String,
-      required: true
+      type: String
     }
   },
   { timestamps: true }
