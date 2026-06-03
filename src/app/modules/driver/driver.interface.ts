@@ -5,5 +5,8 @@ export interface IDriver {
   vehicleInfo: string
   isApproved: boolean
   isOnline: boolean
-  location?: string
+  location?: {
+    type: 'Point'
+    coordinates: [number, number]
+  }
 }

@@ -21,5 +21,10 @@ router.patch(
   checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
   DriverController.updateDriverAvailability
 )
+router.patch(
+  '/location',
+  checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DriverController.updateDriverLocation
+)
 
 export const DriverRoute = router

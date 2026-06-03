@@ -43,8 +43,22 @@ const updateDriverAvailability = async (
   return driver
 }
 
+const updateDriverLocation = async (
+  userId: string,
+  locationData: { location: { type: 'Point'; coordinates: [number, number] } }
+): Promise<IDriver | null> => {
+  const driver = await Driver.findOne({ user: userId })
+  if (!driver) {
+    throw new Error('Driver profile not found')
+  }
+  driver.location = locationData.location
+  await driver.save()
+  return driver
+}
+
 export const DriverService = {
   createDriverProfile,
   getDriverProfile,
-  updateDriverAvailability
+  updateDriverAvailability,
+  updateDriverLocation
 }

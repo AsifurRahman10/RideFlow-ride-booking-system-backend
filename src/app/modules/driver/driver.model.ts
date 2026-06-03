@@ -22,12 +22,17 @@ const driverSchema = new Schema<IDriver>(
       default: false
     },
     location: {
-      type: String
+      type: {
+        type: String,
+        enum: ['Point'],
+        default: 'Point'
+      },
+      coordinates: [Number]
     }
   },
   { timestamps: true }
 )
-
+driverSchema.index({ location: '2dsphere' })
 const Driver = model('Driver', driverSchema)
 
 export default Driver
