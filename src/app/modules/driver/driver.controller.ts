@@ -18,7 +18,19 @@ const createDriverProfile = catchAsync(
     })
   }
 )
+const getDriverProfile = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await DriverService.getDriverProfile(req.user.userId as string)
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Driver profile retrieved successfully',
+      data: user
+    })
+  }
+)
 
 export const DriverController = {
-  createDriverProfile
+  createDriverProfile,
+  getDriverProfile
 }

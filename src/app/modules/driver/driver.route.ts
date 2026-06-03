@@ -13,4 +13,10 @@ router.post(
   DriverController.createDriverProfile
 )
 
+router.get(
+  '/profile',
+  checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DriverController.getDriverProfile
+)
+
 export const DriverRoute = router

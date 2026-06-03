@@ -22,6 +22,15 @@ const createDriverProfile = async (
   return driver
 }
 
+const getDriverProfile = async (userId: string): Promise<IDriver | null> => {
+  const driver = await Driver.findOne({ user: userId })
+  if (!driver) {
+    throw new Error('Driver profile not found')
+  }
+  return driver
+}
+
 export const DriverService = {
-  createDriverProfile
+  createDriverProfile,
+  getDriverProfile
 }
