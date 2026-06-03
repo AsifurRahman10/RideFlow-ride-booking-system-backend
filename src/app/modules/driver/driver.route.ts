@@ -1,6 +1,4 @@
 import { Router } from 'express'
-import validateRequest from '../../middleware/validateRequest'
-import { UserValidation } from '../user/user.validation'
 import checkAuth from '../../middleware/checkAuth'
 import { UserRole } from '../user/user.interface'
 import { DriverController } from './driver.controller'
@@ -17,6 +15,11 @@ router.get(
   '/profile',
   checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
   DriverController.getDriverProfile
+)
+router.patch(
+  '/availability',
+  checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DriverController.updateDriverAvailability
 )
 
 export const DriverRoute = router

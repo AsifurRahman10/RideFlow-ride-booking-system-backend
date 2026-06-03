@@ -30,7 +30,21 @@ const getDriverProfile = async (userId: string): Promise<IDriver | null> => {
   return driver
 }
 
+const updateDriverAvailability = async (
+  userId: string,
+  availabilityData: { isOnline: boolean }
+): Promise<IDriver | null> => {
+  const driver = await Driver.findOne({ user: userId })
+  if (!driver) {
+    throw new Error('Driver profile not found')
+  }
+  driver.isOnline = availabilityData.isOnline
+  await driver.save()
+  return driver
+}
+
 export const DriverService = {
   createDriverProfile,
-  getDriverProfile
+  getDriverProfile,
+  updateDriverAvailability
 }

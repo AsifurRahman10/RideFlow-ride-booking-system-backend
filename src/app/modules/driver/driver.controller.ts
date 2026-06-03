@@ -29,8 +29,23 @@ const getDriverProfile = catchAsync(
     })
   }
 )
+const updateDriverAvailability = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await DriverService.updateDriverAvailability(
+      req.user.userId as string,
+      req.body
+    )
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Driver availability updated successfully',
+      data: user
+    })
+  }
+)
 
 export const DriverController = {
   createDriverProfile,
-  getDriverProfile
+  getDriverProfile,
+  updateDriverAvailability
 }
