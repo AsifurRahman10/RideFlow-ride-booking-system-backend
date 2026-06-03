@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
 
-export enum DriverApprovalStatus {
+export enum IDriverApprovalStatus {
   PENDING = 'pending',
   APPROVED = 'approved',
   REJECTED = 'rejected',
@@ -10,7 +10,7 @@ export enum DriverApprovalStatus {
 export interface IDriver {
   user: Types.ObjectId
   vehicleInfo: string
-  isApproved: DriverApprovalStatus
+  isApproved: IDriverApprovalStatus
   isOnline: boolean
   location?: {
     type: 'Point'

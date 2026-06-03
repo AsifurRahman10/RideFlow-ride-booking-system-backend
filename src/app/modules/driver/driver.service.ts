@@ -1,6 +1,6 @@
 import { Ride } from '../ride/ride.model'
 import { User } from '../user/user.modal'
-import { IDriver } from './driver.interface'
+import { IDriver, IDriverApprovalStatus } from './driver.interface'
 import Driver from './driver.model'
 
 const createDriverProfile = async (
@@ -86,11 +86,26 @@ const getAllDrivers = async (): Promise<IDriver[]> => {
   return drivers
 }
 
+const approveOrRejectDriver = async (
+  driverId: string,
+  approvalStatus: IDriverApprovalStatus
+) => {
+  console.log(approvalStatus)
+  const driver = await Driver.findById(driverId)
+  if (!driver) {
+    throw new Error('Driver not found')
+  }
+  driver.isApproved = approvalStatus
+  await driver.save()
+  return driver
+}
+
 export const DriverService = {
   createDriverProfile,
   getDriverProfile,
   updateDriverAvailability,
   updateDriverLocation,
   getDriverEarnings,
-  getAllDrivers
+  getAllDrivers,
+  approveOrRejectDriver
 }

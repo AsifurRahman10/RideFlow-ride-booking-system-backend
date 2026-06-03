@@ -39,9 +39,9 @@ router.get(
   DriverController.getAllDrivers
 )
 router.patch(
-  '/:id',
+  '/status/:id',
   checkAuth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
-  DriverController.getAllDrivers
+  DriverController.approveOrRejectDriver
 )
 
 export const DriverRoute = router

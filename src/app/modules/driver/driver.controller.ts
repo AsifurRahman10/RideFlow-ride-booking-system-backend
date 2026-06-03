@@ -83,6 +83,20 @@ const getAllDrivers = catchAsync(
     })
   }
 )
+const approveOrRejectDriver = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await DriverService.approveOrRejectDriver(
+      req.params.id as string,
+      req.body.status
+    )
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Driver approval status updated successfully',
+      data: users
+    })
+  }
+)
 
 export const DriverController = {
   createDriverProfile,
@@ -90,5 +104,6 @@ export const DriverController = {
   updateDriverAvailability,
   updateDriverLocation,
   getDriverEarnings,
-  getAllDrivers
+  getAllDrivers,
+  approveOrRejectDriver
 }
