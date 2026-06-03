@@ -1,3 +1,4 @@
+import { Ride } from '../ride/ride.model'
 import { User } from '../user/user.modal'
 import { IDriver } from './driver.interface'
 import Driver from './driver.model'
@@ -56,9 +57,34 @@ const updateDriverLocation = async (
   return driver
 }
 
+const getDriverEarnings = async (
+  userId: string
+): Promise<{
+  totalCompletedRides: number
+  totalEarnings: number
+  rides: any[]
+}> => {
+  const driver = await Driver.findOne({ user: userId })
+  if (!driver) {
+    throw new Error('Driver profile not found')
+  }
+  const rides = await Ride.find({ driver: driver._id, status: 'completed' })
+  const totalEarnings = rides.reduce((sum, ride) => sum + ride.fare, 0)
+  return {
+    totalCompletedRides: rides.length,
+    totalEarnings,
+    rides: rides.map((ride) => ({
+      rideId: ride._id,
+      fare: ride.fare,
+      status: ride.status
+    }))
+  }
+}
+
 export const DriverService = {
   createDriverProfile,
   getDriverProfile,
   updateDriverAvailability,
-  updateDriverLocation
+  updateDriverLocation,
+  getDriverEarnings
 }

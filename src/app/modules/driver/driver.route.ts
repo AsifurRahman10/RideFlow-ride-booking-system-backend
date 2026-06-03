@@ -16,6 +16,11 @@ router.get(
   checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
   DriverController.getDriverProfile
 )
+router.get(
+  '/earnings',
+  checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DriverController.getDriverEarnings
+)
 router.patch(
   '/availability',
   checkAuth(UserRole.DRIVER, UserRole.ADMIN, UserRole.SUPER_ADMIN),
