@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { IDriver } from './driver.interface'
+import { DriverApprovalStatus, IDriver } from './driver.interface'
 
 const driverSchema = new Schema<IDriver>(
   {
@@ -14,8 +14,9 @@ const driverSchema = new Schema<IDriver>(
       required: true
     },
     isApproved: {
-      type: Boolean,
-      default: false
+      type: String,
+      enum: Object.values(DriverApprovalStatus),
+      default: DriverApprovalStatus.PENDING
     },
     isOnline: {
       type: Boolean,
