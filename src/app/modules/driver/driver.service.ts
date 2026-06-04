@@ -86,6 +86,7 @@ const getRideRequests = async (userId: string): Promise<any[]> => {
   if (!driver) {
     throw new Error('Driver profile not found')
   }
+  console.log(driver)
   const rides = await Ride.find({ DriverID: driver._id, status: 'requested' })
   return rides
 }
