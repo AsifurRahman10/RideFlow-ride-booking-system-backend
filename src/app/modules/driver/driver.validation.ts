@@ -1,6 +1,6 @@
 import z from 'zod'
 
-const locationSchema = z.object({
+export const locationSchema = z.object({
   type: z.literal('Point').default('Point'),
   coordinates: z.tuple([z.number(), z.number()])
 })

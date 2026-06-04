@@ -1,17 +1,17 @@
 import { model, Schema } from 'mongoose'
 import { IRide } from './ride.interface'
 
-const riderSchema = new Schema<IRide>(
+const rideSchema = new Schema<IRide>(
   {
     DriverID: { type: Schema.Types.ObjectId, ref: 'Driver', default: null },
     RiderID: { type: Schema.Types.ObjectId, ref: 'Rider', required: true },
     pickupLocation: {
-      type: { type: String, enum: ['Point'], required: true },
-      coordinates: { type: [Number], required: true }
+      type: { type: String, enum: ['Point'] },
+      coordinates: { type: [Number] }
     },
     destinationLocation: {
-      type: { type: String, enum: ['Point'], required: true },
-      coordinates: { type: [Number], required: true }
+      type: { type: String, enum: ['Point'] },
+      coordinates: { type: [Number] }
     },
     status: {
       type: String,
@@ -19,13 +19,11 @@ const riderSchema = new Schema<IRide>(
       default: 'requested'
     },
     pickupAddress: {
-      type: String,
-      required: true
+      type: String
     },
 
     destinationAddress: {
-      type: String,
-      required: true
+      type: String
     },
     fare: {
       type: Number,
@@ -41,7 +39,7 @@ const riderSchema = new Schema<IRide>(
   { timestamps: true }
 )
 
-riderSchema.index({ pickupLocation: '2dsphere' })
-riderSchema.index({ destinationLocation: '2dsphere' })
+rideSchema.index({ pickupLocation: '2dsphere' })
+rideSchema.index({ destinationLocation: '2dsphere' })
 
-export const Ride = model<IRide>('Ride', riderSchema)
+export const Ride = model<IRide>('Ride', rideSchema)

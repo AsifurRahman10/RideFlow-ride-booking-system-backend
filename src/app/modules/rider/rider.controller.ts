@@ -1,0 +1,24 @@
+import catchAsync from '../../utils/catchAsync'
+import { NextFunction, Request, Response } from 'express'
+import sendResponse from '../../utils/sendResponse'
+import httpStatusCode from 'http-status-codes'
+import { RiderService } from './rider.service'
+
+const requestRide = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await RiderService.requestRide(
+      req.user.userId as string,
+      req.body
+    )
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Ride requested successfully',
+      data: users
+    })
+  }
+)
+
+export const RiderController = {
+  requestRide
+}
