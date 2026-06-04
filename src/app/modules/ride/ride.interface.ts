@@ -7,13 +7,16 @@ export interface IRide {
     type: 'Point'
     coordinates: [number, number]
   }
-  destination: {
+  destinationLocation: {
     type: 'Point'
     coordinates: [number, number]
   }
+  pickupAddress: string
+  destinationAddress: string
   status: 'requested' | 'accepted' | 'completed' | 'cancelled'
   fare: number
   rideRequestedAt: Date
   rideAcceptedAt: Date
   rideCompletedAt: Date
+  rideCancelledAt: Date
 }
