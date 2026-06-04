@@ -37,4 +37,10 @@ router.patch(
   DriverController.updateDriverLocation
 )
 
+router.get(
+  '/request',
+  checkAuth(UserRole.DRIVER),
+  DriverController.getRideRequests
+)
+
 export const DriverRoute = router

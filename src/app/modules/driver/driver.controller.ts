@@ -73,10 +73,23 @@ const getDriverEarnings = catchAsync(
   }
 )
 
+const getRideRequests = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await DriverService.getRideRequests(req.user.userId as string)
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Ride requests retrieved successfully',
+      data: user
+    })
+  }
+)
+
 export const DriverController = {
   createDriverProfile,
   getDriverProfile,
   updateDriverAvailability,
   updateDriverLocation,
-  getDriverEarnings
+  getDriverEarnings,
+  getRideRequests
 }

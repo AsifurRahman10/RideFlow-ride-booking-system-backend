@@ -81,10 +81,20 @@ const getDriverEarnings = async (
   }
 }
 
+const getRideRequests = async (userId: string): Promise<any[]> => {
+  const driver = await Driver.findOne({ user: userId })
+  if (!driver) {
+    throw new Error('Driver profile not found')
+  }
+  const rides = await Ride.find({ DriverID: driver._id, status: 'requested' })
+  return rides
+}
+
 export const DriverService = {
   createDriverProfile,
   getDriverProfile,
   updateDriverAvailability,
   updateDriverLocation,
-  getDriverEarnings
+  getDriverEarnings,
+  getRideRequests
 }
