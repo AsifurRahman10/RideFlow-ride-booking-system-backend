@@ -22,6 +22,10 @@ const driverSchema = new Schema<IDriver>(
       type: Boolean,
       default: false
     },
+    isAvailable: {
+      type: Boolean,
+      default: true
+    },
     location: {
       type: {
         type: String,

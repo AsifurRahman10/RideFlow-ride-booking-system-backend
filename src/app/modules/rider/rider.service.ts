@@ -1,6 +1,7 @@
 import AppError from '../../utils/AppError'
 import { Ride } from '../ride/ride.model'
 import httpStatusCode from 'http-status-codes'
+import { rideQueue } from '../ride/ride.queue'
 
 const requestRide = async (userId: string, payload: any) => {
   if (
@@ -16,6 +17,9 @@ const requestRide = async (userId: string, payload: any) => {
     RiderID: userId,
     ...payload
   })
+
+  // send ride request to queue for driver assignment
+  await rideQueue.add('ride-assignment', { rideId: ride._id })
   return ride
 }
 
