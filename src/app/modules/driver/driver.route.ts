@@ -37,6 +37,11 @@ router.patch(
   DriverController.updateDriverLocation
 )
 
+router.get(
+  '/request',
+  checkAuth(UserRole.DRIVER),
+  DriverController.getRideRequests
+)
 // admin route
 router.get(
   '/',
