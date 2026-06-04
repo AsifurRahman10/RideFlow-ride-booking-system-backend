@@ -42,5 +42,16 @@ router.get(
   checkAuth(UserRole.DRIVER),
   DriverController.getRideRequests
 )
+// admin route
+router.get(
+  '/',
+  checkAuth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DriverController.getAllDrivers
+)
+router.patch(
+  '/status/:id',
+  checkAuth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  DriverController.approveOrRejectDriver
+)
 
 export const DriverRoute = router
