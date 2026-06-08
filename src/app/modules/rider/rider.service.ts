@@ -33,6 +33,7 @@ const requestRide = async (userId: string, payload: any) => {
 
   const fare = calculateFare(distanceKm)
   const ride = await Ride.create({
+    rideRequestedAt: new Date(),
     RiderID: userId,
     rideDistanceKM: distanceKm,
     fare: fare,
@@ -60,7 +61,10 @@ const cancelRide = async (userId: string, rideId: string) => {
     )
   }
 
-  await ride.updateOne({ status: IRideStatus.CANCELLED })
+  await ride.updateOne({
+    status: IRideStatus.CANCELLED,
+    rideCancelledAt: new Date()
+  })
   return ride
 }
 

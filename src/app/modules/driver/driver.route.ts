@@ -42,6 +42,19 @@ router.get(
   checkAuth(UserRole.DRIVER),
   DriverController.getRideRequests
 )
+router.get(
+  '/rides-history',
+  checkAuth(UserRole.DRIVER),
+  DriverController.getRidesHistory
+)
+
+router.patch(
+  '/status/:id',
+  checkAuth(UserRole.DRIVER),
+  validateRequest(DriverValidation.updateRideStatusSchema),
+  DriverController.updateRideStatus
+)
+
 // admin route
 router.get(
   '/',

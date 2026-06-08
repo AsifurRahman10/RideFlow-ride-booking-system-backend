@@ -109,6 +109,32 @@ const getRideRequests = catchAsync(
     })
   }
 )
+const updateRideStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await DriverService.updateRideStatus(
+      req.params.id as string,
+      req.user.userId as string,
+      req.body.status
+    )
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Ride status updated successfully',
+      data: user
+    })
+  }
+)
+const getRidesHistory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await DriverService.getRidesHistory(req.user.userId as string)
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Ride history retrieved successfully',
+      data: user
+    })
+  }
+)
 
 export const DriverController = {
   createDriverProfile,
@@ -118,5 +144,7 @@ export const DriverController = {
   getDriverEarnings,
   getRideRequests,
   getAllDrivers,
-  approveOrRejectDriver
+  approveOrRejectDriver,
+  updateRideStatus,
+  getRidesHistory
 }

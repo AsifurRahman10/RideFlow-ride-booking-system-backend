@@ -1,4 +1,5 @@
 import z from 'zod'
+import { IRideStatus } from '../ride/ride.interface'
 
 export const locationSchema = z.object({
   type: z.literal('Point').default('Point'),
@@ -20,8 +21,13 @@ export const updateDriverLocationSchema = z.object({
   location: locationSchema
 })
 
+export const updateRideStatusSchema = z.object({
+  status: z.nativeEnum(IRideStatus)
+})
+
 export const DriverValidation = {
   createDriverProfileSchema,
   updateDriverAvailabilitySchema,
-  updateDriverLocationSchema
+  updateDriverLocationSchema,
+  updateRideStatusSchema
 }

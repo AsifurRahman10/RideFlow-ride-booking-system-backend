@@ -1,3 +1,5 @@
+import AppError from '../../utils/AppError'
+import httpStatusCode from 'http-status-codes'
 import { IRideStatus } from '../ride/ride.interface'
 import { Ride } from '../ride/ride.model'
 import { User } from '../user/user.modal'
@@ -114,6 +116,79 @@ const approveOrRejectDriver = async (
   return driver
 }
 
+const updateRideStatus = async (
+  rideId: string,
+  driverId: string,
+  status: IRideStatus
+) => {
+  const ride = await Ride.findById(rideId)
+  if (!ride) {
+    throw new Error('Ride not found')
+  }
+  const driver = await Driver.findOne({ user: driverId })
+  if (!driver) {
+    throw new Error('Driver not found')
+  }
+
+  if (String(ride.DriverID) !== String(driver._id)) {
+    throw new Error('This ride is not assigned to you')
+  }
+
+  if (
+    ride.status === IRideStatus.COMPLETED ||
+    ride.status === IRideStatus.CANCELLED
+  ) {
+    throw new AppError(
+      httpStatusCode.BAD_REQUEST,
+      'Ride is already finished and cannot be updated'
+    )
+  }
+
+  const allowedStatuses =
+    ride.status === IRideStatus.REQUESTED
+      ? [IRideStatus.ACCEPTED, IRideStatus.CANCELLED]
+      : [IRideStatus.COMPLETED, IRideStatus.CANCELLED]
+
+  if (!allowedStatuses.includes(status)) {
+    throw new AppError(
+      httpStatusCode.BAD_REQUEST,
+      `Ride status can only be updated to ${allowedStatuses.join(' or ')} from ${ride.status}`
+    )
+  }
+
+  ride.status = status
+
+  if (status === IRideStatus.ACCEPTED) {
+    ride.rideAcceptedAt = new Date()
+  }
+
+  if (status === IRideStatus.COMPLETED) {
+    ride.rideCompletedAt = new Date()
+  }
+
+  if (status === IRideStatus.CANCELLED) {
+    ride.rideCancelledAt = new Date()
+  }
+
+  await ride.save()
+
+  return ride
+}
+
+const getRidesHistory = async (userId: string): Promise<any[]> => {
+  const driver = await Driver.findOne({ user: userId })
+  if (!driver) {
+    throw new Error('Driver profile not found')
+  }
+  const rides = await Ride.find({
+    DriverID: driver._id,
+    status: {
+      $in: [IRideStatus.ACCEPTED, IRideStatus.COMPLETED, IRideStatus.CANCELLED]
+    }
+  }).populate('RiderID', 'name email')
+  return rides
+}
+
 export const DriverService = {
   createDriverProfile,
   getDriverProfile,
@@ -122,5 +197,7 @@ export const DriverService = {
   getDriverEarnings,
   getRideRequests,
   getAllDrivers,
-  approveOrRejectDriver
+  approveOrRejectDriver,
+  updateRideStatus,
+  getRidesHistory
 }
