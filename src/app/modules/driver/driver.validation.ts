@@ -7,7 +7,7 @@ export const locationSchema = z.object({
 
 export const createDriverProfileSchema = z.object({
   vehicleInfo: z.string().min(1, 'Vehicle information is required'),
-  isApproved: z.boolean().optional().default(false),
+  // isApproved: z.boolean().optional().default(false),
   isOnline: z.boolean().optional().default(false),
   location: locationSchema.optional()
 })

@@ -18,8 +18,8 @@ const requestRide = async (userId: string, payload: any) => {
     ...payload
   })
 
-  // send ride request to queue for driver assignment
-  await rideQueue.add('ride-assignment', { rideId: ride._id })
+  // send ride request to queue for driver assignment (assign job)
+  await rideQueue.add('assign', { rideId: ride._id })
   return ride
 }
 

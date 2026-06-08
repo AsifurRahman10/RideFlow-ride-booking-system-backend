@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { IRide } from './ride.interface'
+import { IRide, IRideStatus } from './ride.interface'
 
 const rideSchema = new Schema<IRide>(
   {
@@ -15,8 +15,8 @@ const rideSchema = new Schema<IRide>(
     },
     status: {
       type: String,
-      enum: ['requested', 'accepted', 'completed', 'cancelled'],
-      default: 'requested'
+      enum: Object.values(IRideStatus),
+      default: IRideStatus.REQUESTED
     },
     pickupAddress: {
       type: String

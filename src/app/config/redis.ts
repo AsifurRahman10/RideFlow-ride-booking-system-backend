@@ -6,4 +6,6 @@ const redisConnection = new IORedis({
   maxRetriesPerRequest: null
 })
 
-export default redisConnection
+const redis = new IORedis(redisConnection as any)
+
+export { redis, redisConnection }

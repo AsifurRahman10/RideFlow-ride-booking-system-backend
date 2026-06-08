@@ -1,7 +1,14 @@
 import { Types } from 'mongoose'
 
+export enum IRideStatus {
+  REQUESTED = 'REQUESTED',
+  ACCEPTED = 'ACCEPTED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
+}
+
 export interface IRide {
-  DriverID: Types.ObjectId
+  DriverID: Types.ObjectId | null
   RiderID: Types.ObjectId
   pickupLocation: {
     type: 'Point'
@@ -13,7 +20,7 @@ export interface IRide {
   }
   pickupAddress: string
   destinationAddress: string
-  status: 'requested' | 'accepted' | 'completed' | 'cancelled'
+  status: IRideStatus
   fare: number
   rideRequestedAt: Date
   rideAcceptedAt: Date
