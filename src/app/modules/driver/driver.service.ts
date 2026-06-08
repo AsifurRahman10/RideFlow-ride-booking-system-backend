@@ -156,19 +156,50 @@ const updateRideStatus = async (
     )
   }
 
-  ride.status = status
-
+  // Additional driver-level checks for accepting a ride
   if (status === IRideStatus.ACCEPTED) {
+    if (driver.isApproved !== IDriverApprovalStatus.APPROVED) {
+      throw new AppError(
+        httpStatusCode.FORBIDDEN,
+        'Driver must be approved by admin to accept rides'
+      )
+    }
+
+    if (!driver.isOnline) {
+      throw new AppError(
+        httpStatusCode.BAD_REQUEST,
+        'Driver must be online to accept rides'
+      )
+    }
+
+    if (!driver.isAvailable) {
+      throw new AppError(
+        httpStatusCode.CONFLICT,
+        'Driver is not available to accept another ride'
+      )
+    }
+
+    // mark driver as unavailable when they accept
+    driver.isAvailable = false
+    await driver.save()
     ride.rideAcceptedAt = new Date()
   }
 
   if (status === IRideStatus.COMPLETED) {
     ride.rideCompletedAt = new Date()
+    // free up driver
+    driver.isAvailable = true
+    await driver.save()
   }
 
   if (status === IRideStatus.CANCELLED) {
     ride.rideCancelledAt = new Date()
+    // free up driver
+    driver.isAvailable = true
+    await driver.save()
   }
+
+  ride.status = status
 
   await ride.save()
 
