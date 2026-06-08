@@ -26,4 +26,5 @@ export interface IRide {
   rideAcceptedAt: Date
   rideCompletedAt: Date
   rideCancelledAt: Date
+  rideDistanceKM: number
 }

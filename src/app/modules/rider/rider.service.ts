@@ -2,6 +2,10 @@ import AppError from '../../utils/AppError'
 import { Ride } from '../ride/ride.model'
 import httpStatusCode from 'http-status-codes'
 import { rideQueue } from '../ride/ride.queue'
+import {
+  calculateDistanceKm,
+  calculateFare
+} from '../../utils/fareCalculationHelpers'
 
 const requestRide = async (userId: string, payload: any) => {
   if (
@@ -13,8 +17,24 @@ const requestRide = async (userId: string, payload: any) => {
       'Pickup and destination are required'
     )
   }
+
+  const [pickupLng, pickupLat] = payload.pickupLocation.coordinates
+
+  const [destinationLng, destinationLat] =
+    payload.destinationLocation.coordinates
+
+  const distanceKm = calculateDistanceKm(
+    pickupLat,
+    pickupLng,
+    destinationLat,
+    destinationLng
+  )
+
+  const fare = calculateFare(distanceKm)
   const ride = await Ride.create({
     RiderID: userId,
+    rideDistanceKM: distanceKm,
+    fare: fare,
     ...payload
   })
 

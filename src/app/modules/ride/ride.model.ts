@@ -29,6 +29,10 @@ const rideSchema = new Schema<IRide>(
       type: Number,
       default: 0
     },
+    rideDistanceKM: {
+      type: Number,
+      default: 0
+    },
     rideRequestedAt: { type: Date, default: Date.now },
     rideAcceptedAt: { type: Date },
     rideCompletedAt: { type: Date },

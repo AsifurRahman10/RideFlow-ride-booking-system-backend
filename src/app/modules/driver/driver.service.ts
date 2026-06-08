@@ -1,3 +1,4 @@
+import { IRideStatus } from '../ride/ride.interface'
 import { Ride } from '../ride/ride.model'
 import { User } from '../user/user.modal'
 import { IDriver, IDriverApprovalStatus } from './driver.interface'
@@ -68,7 +69,10 @@ const getDriverEarnings = async (
   if (!driver) {
     throw new Error('Driver profile not found')
   }
-  const rides = await Ride.find({ driver: driver._id, status: 'completed' })
+  const rides = await Ride.find({
+    driver: driver._id,
+    status: IRideStatus.COMPLETED
+  })
   const totalEarnings = rides.reduce((sum, ride) => sum + ride.fare, 0)
   return {
     totalCompletedRides: rides.length,
@@ -86,7 +90,10 @@ const getRideRequests = async (userId: string): Promise<any[]> => {
   if (!driver) {
     throw new Error('Driver profile not found')
   }
-  const rides = await Ride.find({ DriverID: driver._id, status: 'requested' })
+  const rides = await Ride.find({
+    DriverID: driver._id,
+    status: IRideStatus.REQUESTED
+  }).populate('RiderID', 'name email')
   return rides
 }
 const getAllDrivers = async (): Promise<IDriver[]> => {
