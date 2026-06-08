@@ -64,7 +64,13 @@ const cancelRide = async (userId: string, rideId: string) => {
   return ride
 }
 
+const getRideHistory = async (userId: string) => {
+  const rides = await Ride.find({ RiderID: userId }).sort({ createdAt: -1 })
+  return rides
+}
+
 export const RiderService = {
   requestRide,
-  cancelRide
+  cancelRide,
+  getRideHistory
 }

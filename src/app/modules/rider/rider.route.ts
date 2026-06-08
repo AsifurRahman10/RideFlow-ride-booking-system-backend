@@ -20,4 +20,10 @@ router.patch(
   RiderController.cancelRide
 )
 
+router.get(
+  '/history',
+  checkAuth(UserRole.RIDER),
+  RiderController.getRideHistory
+)
+
 export const RiderRoute = router

@@ -32,8 +32,20 @@ const cancelRide = catchAsync(
     })
   }
 )
+const getRideHistory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await RiderService.getRideHistory(req.user.userId as string)
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Ride history retrieved successfully',
+      data: users
+    })
+  }
+)
 
 export const RiderController = {
   requestRide,
-  cancelRide
+  cancelRide,
+  getRideHistory
 }
