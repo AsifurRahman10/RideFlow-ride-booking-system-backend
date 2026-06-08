@@ -19,6 +19,18 @@ const requestRide = async (userId: string, payload: any) => {
     )
   }
 
+  const existingRide = await Ride.findOne({
+    RiderID: userId,
+    status: { $in: [IRideStatus.REQUESTED, IRideStatus.ACCEPTED] }
+  })
+
+  if (existingRide) {
+    throw new AppError(
+      httpStatusCode.BAD_REQUEST,
+      'You already have an active ride request'
+    )
+  }
+
   const [pickupLng, pickupLat] = payload.pickupLocation.coordinates
 
   const [destinationLng, destinationLat] =
