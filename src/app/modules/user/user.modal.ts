@@ -31,6 +31,7 @@ const userSchema = new Schema<IUser>(
     address: { type: String },
     isDeleted: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
+    blocked: { type: Boolean, default: false },
     auths: [authSchema]
   },
   {

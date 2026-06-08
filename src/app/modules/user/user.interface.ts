@@ -28,4 +28,5 @@ export interface IUser {
   isDeleted?: boolean
   isVerified?: boolean
   auths: IAuthProvider
+  blocked?: boolean
 }

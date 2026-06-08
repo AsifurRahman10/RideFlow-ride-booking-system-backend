@@ -46,6 +46,9 @@ const checkAuth =
       if (!isUserExist.isVerified) {
         throw new AppError(httpStatusCode.FORBIDDEN, 'User is not verified')
       }
+      if (isUserExist.blocked) {
+        throw new AppError(httpStatusCode.FORBIDDEN, 'User is blocked')
+      }
       if (
         isUserExist.isActive === IsActive.BLOCK ||
         isUserExist.isActive === IsActive.INACTIVE

@@ -2,7 +2,6 @@ import catchAsync from '../../utils/catchAsync'
 import { NextFunction, Request, Response } from 'express'
 import sendResponse from '../../utils/sendResponse'
 import httpStatusCode from 'http-status-codes'
-import { RiderService } from '../rider/rider.service'
 import { RideService } from './ride.service'
 
 const getAllRides = catchAsync(
