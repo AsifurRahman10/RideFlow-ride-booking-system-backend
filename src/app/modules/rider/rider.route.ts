@@ -14,4 +14,10 @@ router.post(
   RiderController.requestRide
 )
 
+router.patch(
+  '/cancel/:rideId',
+  checkAuth(UserRole.RIDER),
+  RiderController.cancelRide
+)
+
 export const RiderRoute = router

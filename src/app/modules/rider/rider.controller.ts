@@ -18,7 +18,22 @@ const requestRide = catchAsync(
     })
   }
 )
+const cancelRide = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await RiderService.cancelRide(
+      req.user.userId as string,
+      req.params.rideId as string
+    )
+    sendResponse(res, {
+      statusCode: httpStatusCode.OK,
+      success: true,
+      message: 'Ride cancelled successfully',
+      data: users
+    })
+  }
+)
 
 export const RiderController = {
-  requestRide
+  requestRide,
+  cancelRide
 }

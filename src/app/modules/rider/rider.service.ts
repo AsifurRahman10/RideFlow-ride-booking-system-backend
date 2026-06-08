@@ -6,6 +6,7 @@ import {
   calculateDistanceKm,
   calculateFare
 } from '../../utils/fareCalculationHelpers'
+import { IRideStatus } from '../ride/ride.interface'
 
 const requestRide = async (userId: string, payload: any) => {
   if (
@@ -43,6 +44,27 @@ const requestRide = async (userId: string, payload: any) => {
   return ride
 }
 
+const cancelRide = async (userId: string, rideId: string) => {
+  const ride = await Ride.findOne({ _id: rideId, RiderID: userId })
+
+  if (!ride) {
+    throw new AppError(httpStatusCode.NOT_FOUND, 'Ride not found')
+  }
+  if (
+    ride.status === IRideStatus.ACCEPTED ||
+    ride.status === IRideStatus.COMPLETED
+  ) {
+    throw new AppError(
+      httpStatusCode.BAD_REQUEST,
+      'Cannot cancel a accepted or completed ride'
+    )
+  }
+
+  await ride.updateOne({ status: IRideStatus.CANCELLED })
+  return ride
+}
+
 export const RiderService = {
-  requestRide
+  requestRide,
+  cancelRide
 }
