@@ -13,6 +13,9 @@ interface EnvProps {
   JWT_REFRESH_EXPIRE: string
   SUPER_ADMIN_EMAIL: string
   SUPER_ADMIN_PASSWORD: string
+  REDIS_HOST: string
+  REDIS_PORT: string
+  REDIS_PASSWORD: string
 }
 
 const loadEnv = (): EnvProps => {
@@ -27,7 +30,10 @@ const loadEnv = (): EnvProps => {
     'JWT_REFRESH_SECRET',
     'JWT_REFRESH_EXPIRE',
     'SUPER_ADMIN_EMAIL',
-    'SUPER_ADMIN_PASSWORD'
+    'SUPER_ADMIN_PASSWORD',
+    'REDIS_HOST',
+    'REDIS_PORT',
+    'REDIS_PASSWORD'
   ]
 
   envArray.forEach((key) => {
@@ -46,7 +52,10 @@ const loadEnv = (): EnvProps => {
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET!,
     JWT_REFRESH_EXPIRE: process.env.JWT_REFRESH_EXPIRE!,
     SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL!,
-    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD!
+    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD!,
+    REDIS_HOST: process.env.REDIS_HOST!,
+    REDIS_PORT: process.env.REDIS_PORT!,
+    REDIS_PASSWORD: process.env.REDIS_PASSWORD!
   }
 }
 
